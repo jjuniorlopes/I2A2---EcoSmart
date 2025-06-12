@@ -1,6 +1,6 @@
 # Descrição
 
-Repositório voltado às atividade do curso da I2A2 - 2025
+Repositório voltado às atividades do curso da I2A2 - 2025
 
 
 ## Atividade 3
