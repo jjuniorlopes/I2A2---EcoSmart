@@ -40,5 +40,5 @@ O arquivo `app.py` é uma aplicação Streamlit que permite consultar e analisar
 
 4. Adicione a chave de API criada no arquivo .env
    ```
-   GEMINI_API_KEY=suachaveaqui
+   GEMINI_API_KEY="suachaveaqui"
    ```
