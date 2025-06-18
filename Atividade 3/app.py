@@ -5,6 +5,8 @@ import sqlite3
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
+import zipfile
+from io import TextIOWrapper
 
 from gemini_llm import GeminiLLM
 from langchain_community.utilities import SQLDatabase
@@ -23,21 +25,32 @@ if not API_KEY:
 # 2. Ler os CSVs em DataFrames Pandas
 @st.cache_data(show_spinner=False)
 def carregar_dados():
-    df_cab = pd.read_csv(
-        "./202401_NFs/202401_NFs_Cabecalho.csv",
-        sep=",",
-        decimal=".",
-        parse_dates=["DATA EMISSÃO", "DATA/HORA EVENTO MAIS RECENTE"],
-        dayfirst=False,
-    )
-    df_itens = pd.read_csv(
-        "./202401_NFs/202401_NFs_Itens.csv",
-        sep=",",
-        decimal=".",
-        parse_dates=["DATA EMISSÃO"],
-        dayfirst=False,
-    )
+    zip_path = "./202401_NFs.zip"
+    # nomes exatos dos arquivos dentro do ZIP
+    cab_name   = "202401_NFs_Cabecalho.csv"
+    itens_name = "202401_NFs_Itens.csv"
+
+    with zipfile.ZipFile(zip_path, "r") as z:
+        # lê o CSV de cabeçalho
+        with z.open(cab_name) as f_cab:
+            df_cab = pd.read_csv(
+                TextIOWrapper(f_cab, encoding="utf-8"),
+                sep=",",
+                decimal=".",
+                parse_dates=["DATA EMISSÃO", "DATA/HORA EVENTO MAIS RECENTE"],
+                dayfirst=False,
+            )
+        # lê o CSV de itens
+        with z.open(itens_name) as f_itens:
+            df_itens = pd.read_csv(
+                TextIOWrapper(f_itens, encoding="utf-8"),
+                sep=",",
+                decimal=".",
+                parse_dates=["DATA EMISSÃO"],
+                dayfirst=False,
+            )
     return df_cab, df_itens
+
 
 df_cabecalho, df_itens = carregar_dados()
 
