@@ -20,7 +20,7 @@ O arquivo `app.py` é uma aplicação Streamlit que permite consultar e analisar
 
 2. Crie um arquivo `.env` na pasta do projeto com sua chave de API Gemini:
    ```
-   GEMINI_API_KEY=suachaveaqui
+   GEMINI_API_KEY="suachaveaqui"
    ```
 
 3. Execute o aplicativo Streamlit:
@@ -40,5 +40,5 @@ O arquivo `app.py` é uma aplicação Streamlit que permite consultar e analisar
 
 4. Adicione a chave de API criada no arquivo .env
    ```
-   GEMINI_API_KEY=suachaveaqui
+   GEMINI_API_KEY="suachaveaqui"
    ```
