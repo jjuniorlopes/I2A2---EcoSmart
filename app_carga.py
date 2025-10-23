@@ -62,7 +62,7 @@ set_background('fundo.jpg')
 
 # Nota: A string de conexão DB_CONNECTION_STRING é mantida para o SQLAlchemy,
 # mas as credenciais MySQL diretas serão lidas via st.secrets.
-DB_CONNECTION_STRING = 'mysql+mysqlconnector://DB_CONNECTION_STRING = 'mysql+mysqlconnector://st.secrets["mysql"]["user"]:st.secrets["mysql"]["password"]@st.secrets["mysql"]["host"]:3306/st.secrets["mysql"]["database"]'
+DB_CONNECTION_STRING = 'mysql+mysqlconnector://st.secrets["mysql"]["user"]:st.secrets["mysql"]["password"]@st.secrets["mysql"]["host"]:3306/st.secrets["mysql"]["database"]'
 TABLE_CABECALHO = 'NFE_Cabecalho'
 TABLE_ITENS = 'NFE_Itens'
 
@@ -466,3 +466,4 @@ def app():
 if __name__ == '__main__':
 
     app()
+
