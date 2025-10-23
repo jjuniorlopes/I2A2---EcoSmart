@@ -23,6 +23,7 @@ import io
 from sqlalchemy import create_engine
 import os
 import mysql.connector
+import pymysql
 import base64
 import xml.etree.ElementTree as ET
 import requests
@@ -130,13 +131,28 @@ COL_MAPPING_ITENS = {
 # =============================
 
 def get_db_connection():
-    """Cria e retorna o motor de conexão SQLAlchemy para o MySQL."""
+    """Cria e retorna o motor de conexão SQLAlchemy para o MySQL, compatível com Streamlit Cloud."""
     try:
-        # Cria o motor de conexão, substituindo o conector para compatibilidade
-        engine = create_engine(DB_CONNECTION_STRING.replace('mysql+mysqlconnector', 'mysql'))
+        # Força o uso do driver PyMySQL
+        connection_string = st.secrets.get("DBCONNECTIONSTRING", "")
+        if not connection_string:
+            host = st.secrets["mysql"]["host"]
+            user = st.secrets["mysql"]["user"]
+            password = st.secrets["mysql"]["password"]
+            database = st.secrets["mysql"]["database"]
+            connection_string = f"mysql+pymysql://{user}:{password}@{host}:3306/{database}"
+        else:
+            # Garante troca para pymysql caso a string tenha outro driver
+            connection_string = connection_string.replace("mysql+mysqlconnector", "mysql+pymysql")
+
+        engine = create_engine(connection_string, pool_pre_ping=True)
         return engine
+
+    except KeyError as e:
+        st.error(f"Erro: campo {e} ausente em secrets.toml. Verifique suas credenciais.")
+        return None
     except Exception as e:
-        st.error(f"Erro ao simular conexão com o banco de dados. Verifique a string de conexão: {e}")
+        st.error(f"Erro ao simular conexão com o banco de dados. Detalhe: {e}")
         return None
 
 def get_mysql_credentials():
@@ -466,4 +482,5 @@ def app():
 if __name__ == '__main__':
 
     app()
+
 
