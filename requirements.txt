@@ -1,0 +1,20 @@
+streamlit
+pandas
+numpy
+sqlalchemy
+mysql-connector-python
+plotly # Para geração dos gráficos no dashboard
+matplotlib
+langchain
+langchain-google-genai
+langchain-community # Para o SQLDatabase
+langchain-experimental
+langchain-core
+google-generativeai
+scikit-learn
+seaborn
+tabulate
+io
+python-dotenv
+protobuf
+requests
